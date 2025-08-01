@@ -1,0 +1,17 @@
+;;
+;; i18n en platform messages
+;;
+{:database.unavailable "PLA00500::The database currently unavailable"
+ :general.exception "PLA00500::Unable to process request"
+ :internal.server.error "PLA00500::HTTP internal server error"
+ :service.unavailable "PLA00500::Service currently unavailable"
+ ;;
+ :account.credentials.expired "SEC10400::Credentials expired"
+ :account.expired "SEC10400::Account has expired"
+ :account.locked "SEC10400::Account locked"
+ :account.not.enabled "SEC10400::Account not enabled"
+ ;;
+ :missing.or.invalid.basic.credentials "SEC10400::Missing or invalid basic credentials"
+ :missing.or.invalid.magic.link.credentials "SEC10400::Missing or invalid magic link credentials"
+ :missing.or.invalid.webauthn.credentials "SEC10400::Missing or invalid webauthn credentials"
+ :missing.or.invalid.session.cookie.credentials "SEC10400::Missing or invalid session credentials"}

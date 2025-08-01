@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div class="mb-3">
+        If the account exists, a magic link has been sent to the registered email address. Please open the email and click on the magic link to login in.
+        <div class="mt-2" th:if="${magicLinkToken}">
+            <a href="/magic-link?token=foo" th:href="@{~/login/magic-link(token=${magicLinkToken})}" th:text="#{ui.login.magic.link.click.to.login}">Click here to pretend you have clicked on the magic link in email</a>
+        </div>
+        <div class="mt-2">
+            <a class="btn btn-danger d-block w-100" href="/login" th:href="@{~/login}"><span th:text="#{ui.login.cancel.button}">Cancel Login</span></a>
+        </div>
+    </div>
+</html>

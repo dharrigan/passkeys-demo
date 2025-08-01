@@ -1,0 +1,10 @@
+;;
+;; i18n en ui session messages
+;;
+;; PLEASE *SORT* THE KEYS WITHIN EACH GROUPING!!!
+;;
+{;;
+ ;; To faciliate sorting...
+ ;;
+ :401 "Account unknown or not authorized or session has timed out"
+ :500 "Unhandled error has occurred"}

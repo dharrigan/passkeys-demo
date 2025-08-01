@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <section>
+        <div th:fragment="navbar-container (content)" class="row justify-content-evenly">
+            <div class="col-9">
+                <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                    <div class="container-fluid">
+                        <span class="nav-text" th:text="#{ui.dashboard.navbar.currently.logged.in.as} + ' ' + ${loggedInAs}">Currently logged in as</span>
+                        <span class="nav-text me-auto">
+                            &nbsp;(<span class="fw-bold" th:text="${email}">passkey@example.com</span>)
+                        </span>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a id="registerPasskey" class="nav-link active" role="button">
+                                    <div class="row g-1 align-items-center">
+                                        <div class="col-md-auto">
+                                            <i class="material-symbols-outlined float-start fs-2">key</i>
+                                        </div>
+                                        <div class="col">
+                                            <span th:text="#{ui.dashboard.navbar.register.passkey}">Register Passkey</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" role="button" hx-post="/logout">
+                                    <div class="row g-1 align-items-center">
+                                        <div class="col">
+                                            <i class="material-icons float-start fs-2">person</i>
+                                        </div>
+                                        <div class="col">
+                                            <span th:text="#{ui.dashboard.navbar.logout}">Logout</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+            <script th:inline="javascript">
+                $('#registerPasskey').on('click', async () => {
+                    passKeyRegister();
+                });
+            </script>
+        </div>
+    </section>
+</html>

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if (rg 'tap>' $@)
+then
+    echo
+    echo "Error: You have left at least one 'tap>' in the sourcecode. Please remove them and retry the commit."
+    exit 1
+fi

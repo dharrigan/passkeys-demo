@@ -1,0 +1,19 @@
+---
+
+services:
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d:ro
+
+  valkey:
+    image: valkey/valkey:latest
+    container_name: redis
+    ports:
+      - "6379:6379"

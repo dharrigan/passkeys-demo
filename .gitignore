@@ -1,0 +1,17 @@
+/target
+/lib
+/classes
+/checkouts
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+resources.tar
+.DS_Store
+*.iml
+.nrepl-port
+.project
+.idea
+resources/version.txt
+resources/config/config-local.edn
+dev/resources/config

@@ -1,0 +1,20 @@
+;;
+;; Example Configuration
+;;
+{:secrets {:db {:passkeys-demo {:dbtype "postgresql"
+                                :dbname "passkeys_demo"
+                                :host "localhost"
+                                :port 5432
+                                :username "passkey"
+                                :password "itsasecret"}}
+           :redis {:sessions {:uri "redis://localhost/0" :ttl-seconds 2592000} ;; 30 days
+                   :magic-links {:uri "redis://localhost/1" :ttl-seconds 300} ;; 5 minutes
+                   :passkeys {:uri "redis://localhost/2" :ttl-seconds 300}}} ;; 5 minutes
+ :runtime-config {:db {:passkeys-demo {:migration-locations ["db/migrations/postgresql"]}}
+                  :cookies {:session {:cookie-name "__HOST-passkeys-demo-session" :ttl-seconds 2592000}} ;; 30 days
+                  :cors {:allow-origin "https://passkeys.demo.internal"}
+                  :webauthn {:passkeys {:relying-party-id "passkeys.demo.internal" :relying-party-name "Passkeys Demo"}}
+                  :environment :local
+                  :jetty {:port 3001}
+                  :sentry {:dsn nil}
+                  :thymeleaf {:html {:prefix "templates/html" :suffix ".html"}}}}

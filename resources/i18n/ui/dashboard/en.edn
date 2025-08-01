@@ -1,0 +1,21 @@
+;;
+;; i18n en ui dashboard messages
+;;
+;; PLEASE *SORT* THE KEYS WITHIN EACH GROUPING!!!
+;;
+{;;
+ ;; To faciliate sorting...
+ ;;
+ :hello.world "Hello World!"
+ :login.title "Passkeys Demo Login"
+ :title "Passkeys Demo"
+ ;;
+ :passkeys.demo.logged.in "Congratulations! You have logged in!"
+ ;;
+ ;; Navigation Bar
+ ;;
+ :navbar.currently.logged.in.as "Currently logged in as"
+ :navbar.currently.logged.in.as.email.postfix ")"
+ :navbar.currently.logged.in.as.email.suffix "("
+ :navbar.logout "Logout"
+ :navbar.register.passkey "Register Passkey"}

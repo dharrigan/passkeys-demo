@@ -1,0 +1,392 @@
+= Passkeys Demo Clojure Project
+:author: David Harrigan
+:email: dharrigan@gmail.com
+:docinfo: true
+:doctype: book
+:icons: font
+:numbered:
+:sectlinks:
+:sectnums:
+:setanchors:
+:source-highlighter: highlightjs
+:toc:
+:toclevels: 5
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+== Introduction
+
+This is a very small, yet surprisingly complete, example of using
+https://www.clojure.org[Clojure] to serve up a user interface using
+*Thymeleaf* and *HTMX* and shows how *Passkey* (aka *Webauthn with Resident
+Keys*) authentication works.
+
+This demo has been tested on Linux using Firefox and
+https://www.bitwarden.com[bitwarden].
+
+I've also successfully tested it by running the system on Linux, going to the
+login page via a MacBook Pro and registering the Passkey on my iPhone (which
+then uses Face ID to authenticate me for subsequent logins - to be honest,
+it's pretty magical when that happens and everything *just works*™!)
+
+[WARNING]
+=====
+It's by *no-means a comprehensive solution* - there are many edge cases to
+*Webauthn* that need to be catered for, but at least this little demo might
+help point the way to how it might be done and help get you started.
+=====
+
+[NOTE]
+====
+Inspiration for this project came via
+https://increasinglyfunctional.com/2024/08/22/passkeys-react-native-clojure-part-i.html[this example].
+
+With my demo project, I've filled in the missing information, updated the
+code, added example authentication, removed *React* and used *HTMX*.
+
+I've also made this project available and open to anyone to use as they see
+fit (see license below).
+====
+
+[NOTE]
+====
+This passkeys demo pretends to send out a magic link, as the second form of
+authentication for logging in (after the email address). This is to enable
+those people who have not yet registered a passkey to continue to log in.
+
+I took inspiration from this article:
+
+* https://rmondello.com/2025/01/02/magic-links-and-passkeys/
+
+Further information on Webauthn (and Passkeys) can be found via these links:
+
+* https://www.imperialviolet.org/tourofwebauthn/tourofwebauthn.html
+* https://www.corbado.com/blog/webauthn-conditional-ui-passkeys-autofill
+* https://www.corbado.com/blog/passkeys-cheat-sheet
+* https://passkeys.dev
+
+The go-to reference for all things Webauthn, i.e. the actual spec can be found
+here:
+
+* https://www.w3.org/TR/webauthn-3
+
+Be warned! It is quite intense. That version is still a working draft and thus
+hasn't been promoted to *Recommendation* status yet.
+
+Passkeys are still evolving, for example, this is a recent change that should
+help in notifying authenticators of a change:
+
+* https://github.com/w3c/webauthn/pull/2093
+
+It has been recently merged in and is available in Webauthn Version 3.
+====
+
+== Features
+
+* Login (with fake Magic Link support)
+* Passkey registration
+* Conditional UI Passkey authentication (after initial Passkey registration)
+* Exception handling (both RESTful and for the UI)
+* Internationalisation (i18n)
+* Input validation (using https://github.com/metosin/malli[Malli])
+* https://www.thymeleaf.org[Thymeleaf] to render webpages
+* https://htmx.org[HTMX] to provide user interaction via the UI.
+
+== Intentionally Not Done
+
+* De-registration of a Passkey
+* User management
+* Rigorous edge case testing - I'm sure this demo will blow apart if you stray from the happy path too much 😁
+
+These things I would encourage you to solve if you look to implement Passkeys for your project.
+
+== Passkeys Demo
+
+This backend is written in https://www.clojure.org[Clojure] and uses a
+https://www.postgresql.org[PostgreSQL] database to store data and
+https://www.valkey.io[valkey] for the temporary caching of data. It also uses
+https://www.docker.com[docker] to provide containers for PostgreSQL and
+Valkey.
+
+The technologies in play include:
+
+* https://github.com/metosin/reitit[reitit]
+* https://github.com/seancorfield/next-jdbc[next-jdbc]
+* https://github.com/seancorfield/honeysql[honeysql]
+* https://github.com/donut-power/system[donut.system]
+* https://github.com/juxt/aero[juxt aero]
+* https://github.com/flyway/flyway[flyway database migration]
+* https://developers.yubico.com/java-webauthn-server/[yuibco java webauthn server]
+** Would be nice if there was a native Clojure library to handle Webauthn...just saying...
+
+A full list of the 3rd party libraries that are used can be found in the `deps.edn` file.
+
+The frontend is rendered using:
+
+* https://www.thymeleaf.org[thymeleaf]
+* https://www.htmx.org[htmx]
+* https://simplewebauthn.dev[simplewebauthn]
+* Vanilla Javascript
+* A sprinkling of Bootstrap (because I'm not a frontend developer and I'm terribly lazy)
+
+*Additionally:*
+
+* https://cljdoc.org/d/metosin/reitit/0.9.1/doc/advanced/dev-workflow[Uses a dynamic (repl-friendly) reitit dev workflow]
+
+*Necessary external tooling/services:*
+
+* https://github.com/FiloSottile/mkcert[mkcert - A simple tool for locally-trusted development certificates]
+* https://www.haproxy.org/[HAProxy for TLS termination]
+
+[NOTE]
+====
+These technologies are what I've used. Feel free to use whatever else you are
+comfortable with, e.g., maybe caddy instead of HAProxy. The choice is yours! 😃
+====
+
+== Getting Started
+
+[IMPORTANT]
+====
+If you want to use the supplied `Justfile`, you'll need to have
+https://github.com/casey/just/blob/master/justfile[just] installed.
+====
+
+=== Setting up mkcert, HAProxy and your /etc/hosts file
+
+It's an (un)fortunate case that these protocols work best if the connection is
+all encrypted and a "valid" domain exists. It especially helps when it comes
+to the Relying ID and any password manager you may use. I guess since this is
+all about authentication and authorisation, then having a "real-world" setup is
+preferable to struggling to get it to work with `localhost`.
+
+==== Step 1 - mkcert
+
+Use `mkcert` to create a new local Certificate Authority (CA) and domain for
+yourself. Please review the short example and documentation on the
+https://github.com/FiloSottile/mkcert[mkcert github repo].
+
+I've provided an example below:
+
+----
+$ mkcert -install
+$ mkcert "*.demo.internal"
+----
+
+Follow the instructions provided by mkcert during those steps. It's very easy to setup.
+
+Check that the two `PEM` files have been created:
+
+----
+_wildcard.demo.internal-key.pem
+_wildcard.demo.internal.pem
+----
+
+==== Step 2 - HAProxy
+
+Install `HAProxy` on your machine using your favourite package manager and, as
+root, add the following lines (adding to whatever existing configuration that
+exists) to the `/etc/haproxy/haproxy.cfg` file:
+
+./etc/haproxy/haproxy.cfg (in the frontend section)
+----
+frontend local <1>
+
+    bind                :443 ssl crt-list /etc/haproxy/certs.txt <2>
+    http-request        redirect scheme https unless { ssl_fc }
+    acl                 passkeys hdr(host) -i passkeys.demo.internal
+    use_backend         passkeys if passkeys
+----
+<1> Your frontend section may be named differently
+<2> We'll create this file shortly
+
+./etc/haproxy/haproxy.cfg (in the backend section)
+----
+backend passkeys
+    server      static 127.0.0.1:3001 <1>
+----
+<1> This is port on which the passkeys-demo Jetty server listens to for connections
+
+Copy the two `pem` files generated previously by `mkcert` to `/etc/haproxy`
+and cat them together to make one file:
+
+----
+# cat _wildcard.demo.internal-key.pem _wildcard.demo.internal.pem > demo.internal-combined.pem
+----
+
+Next create a `/etc/haproxy/certs.txt` file and add the following line:
+
+----
+/etc/haproxy/demo.internal-combined.pem *.demo.internal
+----
+
+Finally (re)start `haproxy`:
+
+----
+# systemctl restart haproxy
+----
+
+If you examine `systemctl status haproxy`, there should be no errors and
+`HAProxy` should be happy and waiting for connections.
+
+==== Step 3 - /etc/hosts
+
+As root, edit your `/etc/hosts` file and add the following line:
+
+----
+127.0.0.1 passkeys.demo.internal
+----
+
+== Running the Demo
+
+There are at least 2 ways to launch this project:
+
+[IMPORTANT]
+====
+You need to have the database and cache services running first (in
+a separate terminal). The command to do this, if you have `just` installed is
+`just up`, or if you don't have `just` installed, you can do
+
+* `docker compose -f scripts/docker/docker-compose-services.yml up`
+====
+
+Now, then for the first option:
+
+=== Option 1
+
+[IMPORTANT]
+====
+Copy `resources/config/config-example.edn` to `resources/config/config-local.edn`.
+====
+
+Fire up your repl using:
+
+* `clj -M:dev`
+
+to load up the `dev` alias defined in the `deps.edn` then
+
+* `(require 'dev)`
+* `(dev/go)`
+
+to start the system.
+
+=== Option 2
+
+[IMPORTANT]
+====
+Copy `resources/config/config-example.edn` to `resources/config/config-local.edn`.
+====
+
+* `just run-local`
+
+or
+
+* `bin/build`
+* `bin/run-local`
+
+== Logging in via the UI
+
+Open up a browser and visit `https://passkeys.demo.internal`. You should be
+presented with the login page.
+
+The default email address of `passkeys.demo@example.com` has been pre-filled
+in for you.
+
+== Registering a Passkey
+
+This is where it now becomes a *little* more complicated, as this registration
+and conditional UI login flow really depends upon your local setup (e.g., are
+you using a password manager, or something built into the OS? If you are using
+a password manager, is it configured/integrated with your browser and so
+on...). There are many things that could go wrong here!
+
+With that said, I'll describe what is working for me. You can adapt for you.
+
+* Visit *https://passkeys.demo.internal*
+* Log in (by clicking on the *Login* button)
+* Click on the *Click here to pretend you have clicked on the magic link in the email* link
+
+If you browser supports *Webauthn* (and the majority of all modern browsers do)
+
+* On the top right, click on *Register Passkey*
+* For me, since I use https://bitwarden.com/[Bitwarden], I am presented with a dialog box to add a new site
+* I click on *+ New*
+* Once I confirm that the details in the *New Login* page looks okay, I click *Save*
+
+That should complete the registration process. Your password manager now knows
+that this site can use a passkey. You can further confirm the registration by
+querying the credentials table in PostgreSQL using your favourite SQL editor
+(I use https://www.jetbrains.com/datagrip/[datagrip]). You should see
+something like this:
+
+[%nowrap, source, SQL]
+----
++--------------+---------------------------------+--------------------------------+--------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+----------------+---------------+------------------+------------+
+|credentials_id|created_date                     |credential_id                   |user_handle                                                                                                                     |public_key_cose                                                                                                                                           |signature_count|is_user_verified|is_discoverable|is_backup_eligible|is_backed_up|
++--------------+---------------------------------+--------------------------------+--------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+----------------+---------------+------------------+------------+
+|1             |2025-08-01 15:13:24.994892 +00:00|89f2fe4885d54945b8ffe2545af7e85b|071b967f93114bd974ee101efeb221057e405ded972a3ce672c069222e22117c37ee402157b19097a59cb95c130b1a717a20656f73c7bebaf1fb190dc6764849|a5010203262001215820b1404f44f3adfc8d20e85746ede95b30b4603c79d1e123909e7671cd71e44b062258220d36898720c53717b49c9c46df24059bbfe915a27bda5f2506aad49cd48ff6bb|0              |true            |true           |true              |true        |
++--------------+---------------------------------+--------------------------------+--------------------------------------------------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+---------------+----------------+---------------+------------------+------------+
+----
+
+== Conditional UI Login
+
+Now that you have registered your passkey with your password manager (or OS), we can attempt to login *without a (admittedly faked) magic link requirement*.
+
+* Log out of the dashboard (top right corner)
+* You should be back at the login page
+* For me, when I hover over the email input box, my password manager, https://bitwarden.com/[Bitwarden], presents an option to log in via the just registered passkey
+* I choose that passkey option and *bingo bango* I am immediately logged in (after the backend does all the authentication checks against the passkey)
+
+This can be repeated again and again to prove that it works. It still works if
+you click on the login button, i.e., the requirement to click on a magic link
+can still be used for those people who have not registered a passkey yet.
+
+== Resetting Everything
+
+To start afresh, it's best to stop services, exit your JVM, delete all docker
+containers and volumes and boot things up again.
+
+If you have registered a passkey on your browser (or device/OS) you will need
+to delete it.
+
+== Caveat Coditor!
+
+As mentioned above, this is only a demo of a happy path scenario in using
+Passkeys. If you come to implement it yourself, I definitely encourage more
+testing. More thought on handing exceptions is also required (for example, if
+the authenticator times out, perhaps you want to display a nice message
+telling them to try again).
+
+Other things:
+
+* Passkey De-registration
+* User management
+* Using the Signal API on Webauthn Level 3
+* More fun stuff!
+
+== License
+
+Find the full https://unlicense.org/[unlicense] in the `UNLICENSE` (and
+`LICENSE`) file, but here's a snippet:
+
+```
+This is free and unencumbered software released into the public domain.
+
+Anyone is free to copy, modify, publish, use, compile, sell, or
+distribute this software, either in source code form or as a compiled
+binary, for any purpose, commercial or non-commercial, and by any
+means.
+```
+
+== Feedback
+
+I welcome feedback. I can usually be found hanging out in the `#clojure-uk` or
+`#clojure-europe` channels on https://clojurians.slack.com[Clojurians] Slack.
+If you notice something not quite right with this project, please let me know
+and I will try to fix - for the benefit of others.

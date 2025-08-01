@@ -1,0 +1,16 @@
+;;
+;; i18n en ui login messages
+;;
+;; PLEASE *SORT* THE KEYS WITHIN EACH GROUPING!!!
+;;
+{;;
+ ;; To faciliate sorting...
+ ;;
+ :cancel.button "Cancel Login"
+ :email.address "Email Address"
+ :login.button "Login"
+ :magic.link.click.to.login "Click here to pretend you have clicked on the magic link in the email"
+ :text "Please enter your email address to continue"
+ :title "Passkeys Demo"
+ :version "Version"
+ :welcome "Passkeys Demo"}

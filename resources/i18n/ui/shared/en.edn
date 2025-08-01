@@ -1,0 +1,14 @@
+;;
+;; i18n en ui shared messages
+;;
+;; PLEASE *SORT* THE KEYS WITHIN EACH GROUPING!!!
+;;
+{;;
+ ;; To faciliate sorting...
+ ;;
+ ;; Shared
+ ;;
+ :close.button "Close"
+ :date.format "yyyy-MM-dd"
+ :datetime.format "yyyy-MM-dd HH:mm:ss"
+ :version "Version"}

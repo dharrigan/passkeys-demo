@@ -1,0 +1,15 @@
+;;
+;; i18n en ui exception messages
+;;
+;; PLEASE *SORT* THE KEYS WITHIN EACH GROUPING!!!
+;;
+{;;
+ ;; To faciliate sorting...
+ ;;
+ ;; Errors
+ ;;
+ :error.code "Code"
+ :error.message "Message"
+ :error.reference "Reference"
+ :error.support "If this error reoccurs, please quote the code and reference when contacting support. Thank you."
+ :error.title "An error has occurred!"}

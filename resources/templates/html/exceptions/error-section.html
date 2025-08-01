@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <section th:fragment="errorModal">
+        <div id="errorModal" class="modal show" data-bs-toggle="modal" data-bs-target="#errorModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header text-white bg-danger">
+                        <h5 class="modal-title fw-bold" th:text="#{ui.exceptions.error.title}">An error has occured!</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col fw-bold">
+                                    <span th:text="#{ui.exceptions.error.code}">Code</span>:
+                                </div>
+                                <div class="col-10">
+                                    <span th:text="${code}">PLA90010</span>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col fw-bold">
+                                    <span th:text="#{ui.exceptions.error.message}">Message</span>:
+                                </div>
+                                <div class="col-10">
+                                    <span th:text="${message}">Sorry, the database is currently unavailable</span>.
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col fw-bold">
+                                    <span th:text="#{ui.exceptions.error.reference}">Reference</span>:
+                                </div>
+                                <div class="col-10">
+                                    <span th:text="${reference}">41ad0a7d-3c1a-4b22-9fdc-2d173adffed5</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" th:text="#{ui.shared.close.button}">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</html>

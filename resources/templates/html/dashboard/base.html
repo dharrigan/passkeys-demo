@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" th:fragment="layout(content)" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{dashboardHeader :: dashboard-header(~{::title})}">
+        <title th:text="#{ui.dashboard.title}">Passkeys Demo Dashboard</title>
+    </head>
+    <body>
+        <div id="systemMessage"></div>
+        <div id="viewClinician"></div>
+        <div class="container-fluid text-center mt-2">
+            <div th:replace="~{dashboardNavbar :: navbar-container(content)}">Navigation</div>
+            <div th:replace="${content}"><p>Content</p></div>
+        </div>
+    </body>
+</html>
