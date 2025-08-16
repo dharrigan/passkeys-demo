@@ -16,16 +16,16 @@
         com.github.seancorfield/honeysql {:mvn/version "2.7.1340"}
         com.github.seancorfield/next.jdbc {:mvn/version "1.3.1048"}
         com.taoensso/carmine {:mvn/version "3.4.1"}
-        com.taoensso/encore {:mvn/version "3.151.0"}
+        com.taoensso/encore {:mvn/version "3.152.0"}
         com.taoensso/tempura {:mvn/version "1.5.4"}
         com.yubico/webauthn-server-core {:mvn/version "2.7.0"}
-        com.zaxxer/HikariCP {:mvn/version "7.0.0"}
+        com.zaxxer/HikariCP {:mvn/version "7.0.1"}
         info.sunng/ring-jetty9-adapter {:mvn/version "0.37.5"}
         io.aviso/pretty {:mvn/version "1.4.4"}
         io.github.paintparty/bling {:mvn/version "0.8.8"}
-        io.lettuce/lettuce-core {:mvn/version "6.7.1.RELEASE"}
+        io.lettuce/lettuce-core {:mvn/version "6.8.0.RELEASE"}
         io.sentry/sentry-clj {:mvn/version "7.22.227"}
-        io.sentry/sentry-logback {:mvn/version "8.18.0"}
+        io.sentry/sentry-logback {:mvn/version "8.19.1"}
         javax.servlet/javax.servlet-api {:mvn/version "4.0.1"}
         metosin/malli {:mvn/version "0.19.1"}
         metosin/muuntaja {:mvn/version "0.6.11"}
@@ -35,9 +35,9 @@
         org.clojure/tools.logging {:mvn/version "1.3.0"}
         org.codehaus.janino/commons-compiler {:mvn/version "3.1.12"}
         org.codehaus.janino/janino {:mvn/version "3.1.12"}
-        org.eclipse.jetty/jetty-jmx {:mvn/version "12.0.23"}
-        org.flywaydb/flyway-core {:mvn/version "11.10.5"}
-        org.flywaydb/flyway-database-postgresql {:mvn/version "11.10.5"}
+        org.eclipse.jetty/jetty-jmx {:mvn/version "12.0.25"}
+        org.flywaydb/flyway-core {:mvn/version "11.11.1"}
+        org.flywaydb/flyway-database-postgresql {:mvn/version "11.11.1"}
         org.postgresql/postgresql {:mvn/version "42.7.7"}
         org.slf4j/jcl-over-slf4j {:mvn/version "2.0.17"}
         org.slf4j/jul-to-slf4j {:mvn/version "2.0.17"}
