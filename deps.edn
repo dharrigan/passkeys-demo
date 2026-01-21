@@ -8,48 +8,48 @@
         buddy/buddy-auth {:mvn/version "3.0.323"}
         camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
         celtuce/celtuce {:mvn/version "0.4.2"}
-        ch.qos.logback/logback-classic {:mvn/version "1.5.21"}
+        ch.qos.logback/logback-classic {:mvn/version "1.5.25"}
         cheshire/cheshire {:mvn/version "6.1.0"}
         clj-http/clj-http {:mvn/version "3.13.1"}
         clojure.java-time/clojure.java-time {:mvn/version "1.4.3"}
-        com.fasterxml.jackson.core/jackson-databind {:mvn/version "2.20.1"}
+        com.fasterxml.jackson.core/jackson-databind {:mvn/version "2.21.0"}
         com.github.seancorfield/honeysql {:mvn/version "2.7.1364"}
-        com.github.seancorfield/next.jdbc {:mvn/version "1.3.1070"}
+        com.github.seancorfield/next.jdbc {:mvn/version "1.3.1086"}
         com.taoensso/carmine {:mvn/version "3.5.0"}
         com.taoensso/encore {:mvn/version "3.159.0"}
         com.taoensso/tempura {:mvn/version "1.5.4"}
-        com.yubico/webauthn-server-core {:mvn/version "2.7.0"}
+        com.yubico/webauthn-server-core {:mvn/version "2.8.1"}
         com.zaxxer/HikariCP {:mvn/version "7.0.2"}
-        info.sunng/ring-jetty9-adapter {:mvn/version "0.39.0"}
+        info.sunng/ring-jetty9-adapter {:mvn/version "0.39.1"}
         io.aviso/pretty {:mvn/version "1.4.4"}
-        io.github.paintparty/bling {:mvn/version "0.9.0"}
-        io.lettuce/lettuce-core {:mvn/version "7.2.0.RELEASE"}
-        io.sentry/sentry-clj {:mvn/version "8.25.237"}
-        io.sentry/sentry-logback {:mvn/version "8.28.0"}
+        io.github.paintparty/bling {:mvn/version "0.9.2"}
+        io.lettuce/lettuce-core {:mvn/version "7.2.1.RELEASE"}
+        io.sentry/sentry-clj {:mvn/version "8.29.238"}
+        io.sentry/sentry-logback {:mvn/version "8.30.0"}
         javax.servlet/javax.servlet-api {:mvn/version "4.0.1"}
         metosin/malli {:mvn/version "0.20.0"}
         metosin/muuntaja {:mvn/version "0.6.11"}
-        metosin/reitit {:mvn/version "0.9.2" :exclusions [metosin/reitit-sieppari]}
+        metosin/reitit {:mvn/version "0.10.0" :exclusions [metosin/reitit-sieppari]}
         org.apache.commons/commons-lang3 {:mvn/version "3.20.0"}
-        org.clojure/tools.cli {:mvn/version "1.2.245"}
-        org.clojure/tools.logging {:mvn/version "1.3.0"}
+        org.clojure/tools.cli {:mvn/version "1.3.250"}
+        org.clojure/tools.logging {:mvn/version "1.3.1"}
         org.codehaus.janino/commons-compiler {:mvn/version "3.1.12"}
         org.codehaus.janino/janino {:mvn/version "3.1.12"}
         org.eclipse.jetty/jetty-jmx {:mvn/version "12.1.5"}
-        org.flywaydb/flyway-core {:mvn/version "11.19.0"}
-        org.flywaydb/flyway-database-postgresql {:mvn/version "11.19.0"}
-        org.postgresql/postgresql {:mvn/version "42.7.8"}
+        org.flywaydb/flyway-core {:mvn/version "11.20.2"}
+        org.flywaydb/flyway-database-postgresql {:mvn/version "11.20.2"}
+        org.postgresql/postgresql {:mvn/version "42.7.9"}
         org.slf4j/jcl-over-slf4j {:mvn/version "2.0.17"}
         org.slf4j/jul-to-slf4j {:mvn/version "2.0.17"}
         org.slf4j/log4j-over-slf4j {:mvn/version "2.0.17"}
         org.slf4j/slf4j-api {:mvn/version "2.0.17"}
         org.thymeleaf/thymeleaf {:mvn/version "3.1.3.RELEASE"}
-        party.donut/system {:mvn/version "1.0.257"}
+        party.donut/system {:mvn/version "1.0.258"}
         ring/ring {:mvn/version "1.15.3" :exclusions [ring/ring-jetty-adapter]}
         ring/ring-anti-forgery {:mvn/version "1.4.0"}
         ring/ring-json {:mvn/version "0.5.1"}}
 
- :aliases {:build {:extra-deps {io.github.clojure/tools.build {:mvn/version "0.10.11"}}
+ :aliases {:build {:extra-deps {io.github.clojure/tools.build {:mvn/version "0.10.12"}}
                    :ns-default scripts.build}
 
            :dev {:extra-paths ["dev/src" "dev/resources"]
