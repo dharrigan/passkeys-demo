@@ -8,7 +8,7 @@
         buddy/buddy-auth {:mvn/version "3.0.323"}
         camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
         celtuce/celtuce {:mvn/version "0.4.2"}
-        ch.qos.logback/logback-classic {:mvn/version "1.5.27"}
+        ch.qos.logback/logback-classic {:mvn/version "1.5.28"}
         cheshire/cheshire {:mvn/version "6.1.0"}
         clj-http/clj-http {:mvn/version "3.13.1"}
         clojure.java-time/clojure.java-time {:mvn/version "1.4.3"}
@@ -23,7 +23,7 @@
         info.sunng/ring-jetty9-adapter {:mvn/version "0.39.1"}
         io.aviso/pretty {:mvn/version "1.4.4"}
         io.github.paintparty/bling {:mvn/version "0.9.2"}
-        io.lettuce/lettuce-core {:mvn/version "7.2.1.RELEASE"}
+        io.lettuce/lettuce-core {:mvn/version "7.4.0.RELEASE"}
         io.sentry/sentry-clj {:mvn/version "8.29.238"}
         io.sentry/sentry-logback {:mvn/version "8.31.0"}
         javax.servlet/javax.servlet-api {:mvn/version "4.0.1"}
