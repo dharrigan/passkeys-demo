@@ -66,6 +66,7 @@
                            :config (ds/ref [:env :runtime-config])}
              :thymeleaf-html #::ds{:start (fn [{:keys [::ds/config]}] (thymeleaf/start config))
                                    :config (ds/ref [:env :runtime-config :thymeleaf :html])}}}})
+
 (defmethod ds/named-system :base
   [_]
   base-system)

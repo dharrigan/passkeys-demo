@@ -37,20 +37,20 @@
     :missing.or.invalid.webauthn.credentials message
     :service.unavailable message))
 
-(defn format-ui-session-error
+(defn ^:private format-ui-session-error
   [error message]
   (case error
     :401 message))
 
 (defn handle-error
-  [{:keys [locales] :as request} {:keys [error type] :as exception-data}]
+  [{:keys [http-status error type] :or {http-status 500} :as exception-data} {:keys [locales uri] :as request}]
   (let [resource-id (keyword (name type) (name error))
         resolved-error-message (resolve-message locales resource-id)
         {:keys [code message]} (split-error-message resolved-error-message)
         resolved-error (case type
                          :platform (format-platform-error error message)
                          :ui.session (format-ui-session-error error message))]
-    {:code code :reference (random-uuid) :message resolved-error}))
+    {:status http-status :body {:code code :reference (random-uuid) :message resolved-error :uri uri}}))
 
 (defn ^:private login-redirect
   [request]
@@ -60,25 +60,20 @@
 
 (defn ^:private exception-info-handler
   [exception-info request] ; exception-info and request both come from reitit.
-  (let [{:keys [http-status error] :or {http-status 500} :as exception-data} (ex-data exception-info)
-        body (-> (case error
-                   ;;
-                   ;; add other exception-info types and handlers here ↑ if appropriate
-                   ;;
-                   ;; finally, catch all.
-                   ;;
-                   (handle-error request exception-data))
-                 (assoc :uri (:uri request)))]
-    (case error
-      :missing.or.invalid.basic.credentials (login-redirect request)
-      :missing.or.invalid.magic.link.credentials (login-redirect request)
-      :missing.or.invalid.webauthn.credentials (login-redirect request)
-      :missing.or.invalid.session.cookie.credentials (login-redirect request)
-      {:status http-status :body body})))
+  (let [{:keys [error] :as exception-data} (ex-data exception-info)]
+    (-> (case error
+          ;;
+          :missing.or.invalid.basic.credentials (login-redirect request)
+          :missing.or.invalid.magic.link.credentials (login-redirect request)
+          :missing.or.invalid.webauthn.credentials (login-redirect request)
+          :missing.or.invalid.session.cookie.credentials (login-redirect request)
+          ;;
+          ;; catch all...
+          ;;
+          (handle-error exception-data request)))))
 
 (defn ^:private exception-handler
-  [error exception {:keys [locales] :as request}] ; exception and request come from reitit.
-  (log/warn exception)
+  [error _exception {:keys [locales] :as request}] ; exception and request come from reitit.
   (let [resource-id (keyword "platform" (name error))
         resolved-error-message (resolve-message locales resource-id)
         {:keys [code message]} (split-error-message resolved-error-message)
@@ -88,7 +83,6 @@
 (defn ^:private create-coercion-handler
   [status]
   (fn [exception {:keys [uri] :as request}]
-    (log/warn exception)
     (let [{:keys [humanized] :as coercion-error} (coercion/encode-error (ex-data exception))]
       {:status status :body {:reference (random-uuid) :message humanized :uri uri}})))
 
@@ -117,7 +111,9 @@
      ;; this ↓ wraps every handler (above), including the retit
      ;; default handlers, exception-info-handler and the exception-handler.
      ;;
-     ::exception/wrap (fn [handler exception request]
+     ::exception/wrap (fn [handler exception {{{:keys [environment]} :runtime-config} :system :as request}]
                         (let [response (handler exception request)]
-                          (log/warn response)
+                          (when-not (contains? #{:staging :production} environment)
+                            (log/warn response)
+                            (log/error exception))
                           response))})))

@@ -5,7 +5,8 @@
    [passkeys.demo.core.errors.impl :refer [throw-unauthorized-exception]]
    [passkeys.demo.core.security.authentication-errors :as authentication-errors]
    [passkeys.demo.core.security.impl :as security]
-   [passkeys.demo.core.utils.text :as text-utils])
+   [passkeys.demo.core.utils.text :as text-utils]
+   [passkeys.demo.system.config.impl :as config])
   (:import
    [com.yubico.webauthn AssertionRequest AssertionResult FinishAssertionOptions FinishRegistrationOptions RegistrationResult RelyingParty StartAssertionOptions StartRegistrationOptions]
    [com.yubico.webauthn.data AuthenticatorSelectionCriteria ByteArray PublicKeyCredentialCreationOptions RelyingPartyIdentity ResidentKeyRequirement UserIdentity UserVerificationRequirement]
@@ -21,11 +22,12 @@
     (ByteArray. ba)))
 
 (defn ^:private relying-party-identity
-  ^RelyingPartyIdentity [{{{{:keys [relying-party-id relying-party-name]} :passkeys} :webauthn} :runtime-config :as system}]
-  (-> (RelyingPartyIdentity/builder)
-      (.id ^String relying-party-id)
-      (.name ^String relying-party-name)
-      (.build)))
+  ^RelyingPartyIdentity [system]
+  (let [{:keys [relying-party-id relying-party-name]} (config/passkeys system)]
+    (-> (RelyingPartyIdentity/builder)
+        (.id ^String relying-party-id)
+        (.name ^String relying-party-name)
+        (.build))))
 
 (defn ^:private create-user-identity
   ^UserIdentity [{{:account/keys [first-name last-name email user-handle]} :principal :as account}]

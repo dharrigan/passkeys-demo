@@ -209,7 +209,7 @@ frontend local <1>
 ./etc/haproxy/haproxy.cfg (in the backend section)
 ----
 backend passkeys
-    server      static 127.0.0.1:3001 <1>
+    server      static 127.0.0.1:8080 <1>
 ----
 <1> This is port on which the passkeys-demo Jetty server listens to for connections
 

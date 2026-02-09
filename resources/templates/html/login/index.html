@@ -8,7 +8,6 @@
             $(document).on('htmx:configRequest', (event) => {
                 username = document.getElementById("username").value;
                 event.detail.headers['Authorization'] = `Basic ${btoa(username)}`;
-                event.detail.headers['X-CSRF-Token'] = /*[[${csrf}]]*/ "The [[${csrf}]] in the comments is replaced at render time!";
             });
             $(async (event) => {
                 passKeyConditionalLogin();
@@ -22,7 +21,7 @@
                         <div class="row mb-5">
                             <div class="col-md-8 col-xl-6 text-center mx-auto">
                                 <h2 class="fw-bold" th:text="#{ui.login.welcome}">Passkeys Demo</h2>
-                                <div class="mt-4">
+                                <div id="please-enter-your-email-address" class="mt-4">
                                     <span class="w-lg-50" th:text="#{ui.login.text}">Please enter your email address to continue</span>.
                                 </div>
                             </div>

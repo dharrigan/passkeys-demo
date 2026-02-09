@@ -11,10 +11,10 @@
 (set! *warn-on-reflection* true)
 
 (defn login
-  [{:keys [anti-forgery-token] :as request} reason]
-  (let [data (cond-> {:csrf anti-forgery-token}
-               reason (assoc :error (exceptions/handle-error request {:error (keyword reason) :type :ui.session})))]
-    (thymeleaf/html "/login/index" request data)))
+  [request reason]
+  (if reason
+    (thymeleaf/html "/login/index" request (assoc :error (exceptions/handle-error request {:error (keyword reason) :type :ui.session})))
+    (thymeleaf/html "/login/index" request)))
 
 (defn basic-login-success
   [{:keys [magic-link-token] :as request}]

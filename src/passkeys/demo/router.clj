@@ -9,6 +9,7 @@
    [passkeys.demo.api.routes :as api-routes]
    [passkeys.demo.system.constants :refer [application-json]]
    [passkeys.demo.ui.middleware.cors :as cors]
+   [passkeys.demo.ui.middleware.csrf :as csrf]
    [passkeys.demo.ui.middleware.exceptions :as exceptions]
    [passkeys.demo.ui.middleware.headers :as headers]
    [passkeys.demo.ui.middleware.locales :as locales]
@@ -69,8 +70,9 @@
            :middleware [swagger/swagger-feature
                         cors/cors-middleware
                         muuntaja/format-middleware
-                        ui-exceptions/ui-exceptions-middleware
                         exceptions/exceptions-middleware
+                        ui-exceptions/ui-exceptions-middleware
+                        csrf/csrf-middleware
                         parameters/parameters-middleware
                         coercion/coerce-request-middleware
                         coercion/coerce-response-middleware

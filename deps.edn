@@ -46,7 +46,6 @@
         org.thymeleaf/thymeleaf {:mvn/version "3.1.3.RELEASE"}
         party.donut/system {:mvn/version "1.0.258"}
         ring/ring {:mvn/version "1.15.3" :exclusions [ring/ring-jetty-adapter]}
-        ring/ring-anti-forgery {:mvn/version "1.4.0"}
         ring/ring-json {:mvn/version "0.5.1"}}
 
  :aliases {:build {:extra-deps {io.github.clojure/tools.build {:mvn/version "0.10.12"}}

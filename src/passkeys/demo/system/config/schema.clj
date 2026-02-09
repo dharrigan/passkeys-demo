@@ -16,7 +16,7 @@
                [:map
                 [:passkeys-demo
                  [:map
-                  [:dbtype {:default "postgresql"} [:= "postgresql"]]
+                  [:dbtype {:default "postgres"} [:= "postgres"]]
                   [:dbname {:default "passkeys_demo"} [:= "passkeys_demo"]]
                   [:host {:default "localhost"} :string]
                   [:port {:default 5432} [:= 5432]]
@@ -37,25 +37,30 @@
                      [:db
                       [:map
                        [:passkeys-demo [:map
-                                        [:migration-locations {:default ["db/migrations/postgresql"]} [:vector :string]]]]]]
-                     [:cookies [:map
-                                [:session
-                                 [:map
-                                  [:cookie-name {:default "passkeys-demo-session"} :string]
-                                  [:ttl-seconds {:default 2592000} pos-int?]]]]] ;; 30 days
-                     [:cors [:map
-                             [:allow-origin {:default "https://passkeys.demo.internal"} :string]
-                             [:allow-headers {:default "*"} :string]
-                             [:allow-credentials {:default true} :boolean]
-                             [:allow-methods {:default "CONNECT, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT"} :string]]]
-                     [:webauthn
+                                        [:migration-locations {:default ["db/migrations/postgres"]} [:vector :string]]]]]]
+                     [:security
                       [:map
-                       [:passkeys
+                       [:authentication
                         [:map
-                         [:relying-party-id {:default "passkeys.demo.internal"} :string]
-                         [:relying-party-name {:default "Passkeys Demo"} :string]]]]]
+                         [:allowed-origins [:set {:default #{"http://localhost" "https://passkeys.demo.internal"}} :string]]]]
+                       [:cookies [:map
+                                  [:session
+                                   [:map
+                                    [:cookie-name {:default "passkeys-demo-session"} :string]
+                                    [:ttl-seconds {:default 2592000} pos-int?]]]]] ;; 30 days
+                       [:cors [:map
+                               [:allow-origin {:default "https://passkeys.demo.internal"} :string]
+                               [:allow-headers {:default "*"} :string]
+                               [:allow-credentials {:default true} :boolean]
+                               [:allow-methods {:default "CONNECT, DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT"} :string]]]
+                       [:webauthn
+                        [:map
+                         [:passkeys
+                          [:map
+                           [:relying-party-id {:default "passkeys.demo.internal"} :string]
+                           [:relying-party-name {:default "Passkeys Demo"} :string]]]]]]]
                      [:environment {:default :local} [:= :local]]
-                     [:jetty {:default 3001} [:map [:port pos-int?]]]
+                     [:jetty {:default 8080} [:map [:port pos-int?]]]
                      [:sentry [:map [:dsn [:maybe :string]]]]
                      [:thymeleaf [:map
                                   [:html
@@ -72,7 +77,7 @@
 (defn validate
   [config]
   (-> (mu/closed-schema Config)
-      (bling/explain-malli config)
+      (bling/explain-malli (apply-defaults config))
       (me/humanize)))
 
 (comment

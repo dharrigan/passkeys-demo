@@ -9,14 +9,34 @@
   [config]
   (schema/apply-defaults config))
 
-(defn cookies
-  [{{:keys [cookies]} :runtime-config :as system}]
-  cookies)
-
-(defn cors
-  [{{:keys [cors]} :runtime-config :as app-config}]
-  cors)
-
 (defn validate
   [config]
   (schema/validate config))
+
+(defn ^:private security-config
+  [system]
+  (get-in system [:runtime-config :security]))
+
+(defn cookies
+  [system]
+  (:cookies (security-config system)))
+
+(defn cors
+  [system]
+  (:cors (security-config system)))
+
+(defn ^:private authentication-config
+  [system]
+  (get-in system [:runtime-config :security :authentication]))
+
+(defn allowed-origins
+  [system]
+  (:allowed-origins (authentication-config system)))
+
+(defn ^:private webauthn-config
+  [system]
+  (get-in system [:runtime-config :security :webauthn]))
+
+(defn passkeys
+  [system]
+  (:passkeys (webauthn-config system)))
