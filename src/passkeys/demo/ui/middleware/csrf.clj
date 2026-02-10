@@ -33,7 +33,7 @@
 
 (defn ^:private allowed-origin
   [request system]
-  (when-let [origin (get-origin-header request)] ;; if no origin header is found, drop through to pre-2023 browser/script request
+  (when-let [origin (get-origin-header request)] ;; if no origin header is found, drop through to pre-2020 browser/script request
     (let [allowed-origins (config/allowed-origins system)]
       (if (contains? allowed-origins origin)
         (do (log/debugf "Origin header '%s' is contained within allowed origins '%s'." origin allowed-origins)
