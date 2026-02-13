@@ -70,8 +70,8 @@
            :middleware [swagger/swagger-feature
                         cors/cors-middleware
                         muuntaja/format-middleware
-                        exceptions/exceptions-middleware
                         ui-exceptions/ui-exceptions-middleware
+                        exceptions/exceptions-middleware
                         csrf/csrf-middleware
                         parameters/parameters-middleware
                         coercion/coerce-request-middleware

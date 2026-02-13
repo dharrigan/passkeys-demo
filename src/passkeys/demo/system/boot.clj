@@ -73,5 +73,5 @@
 
 (defmethod ds/named-system :local
   [_]
-  (log/infof "System started with 'LOCAL' configuration.")
+  (log/info "System started with 'LOCAL' configuration.")
   (ds/system :base {[:env] (load-config :local)}))
