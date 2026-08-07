@@ -8,24 +8,24 @@
         buddy/buddy-auth {:mvn/version "3.0.323"}
         camel-snake-kebab/camel-snake-kebab {:mvn/version "0.4.3"}
         celtuce/celtuce {:mvn/version "0.4.2"}
-        ch.qos.logback/logback-classic {:mvn/version "1.5.37"}
+        ch.qos.logback/logback-classic {:mvn/version "1.6.1"}
         cheshire/cheshire {:mvn/version "6.2.0"}
         clj-http/clj-http {:mvn/version "3.13.1"}
         clojure.java-time/clojure.java-time {:mvn/version "1.4.3"}
-        com.fasterxml.jackson.core/jackson-databind {:mvn/version "2.22.0"}
-        com.github.seancorfield/honeysql {:mvn/version "2.7.1399"}
+        com.fasterxml.jackson.core/jackson-databind {:mvn/version "2.22.1"}
+        com.github.seancorfield/honeysql {:mvn/version "2.7.1437"}
         com.github.seancorfield/next.jdbc {:mvn/version "1.3.1118"}
         com.taoensso/carmine {:mvn/version "3.5.0"}
-        com.taoensso/encore {:mvn/version "3.168.0"}
+        com.taoensso/encore {:mvn/version "3.171.1"}
         com.taoensso/tempura {:mvn/version "1.5.4"}
         com.yubico/webauthn-server-core {:mvn/version "2.9.0"}
         com.zaxxer/HikariCP {:mvn/version "7.1.0"}
-        info.sunng/ring-jetty9-adapter {:mvn/version "0.40.1"}
+        info.sunng/ring-jetty9-adapter {:mvn/version "0.40.3"}
         io.aviso/pretty {:mvn/version "1.4.4"}
         io.github.paintparty/bling {:mvn/version "0.10.0"}
         io.lettuce/lettuce-core {:mvn/version "7.6.0.RELEASE"}
         io.sentry/sentry-clj {:mvn/version "8.34.247"}
-        io.sentry/sentry-logback {:mvn/version "8.46.0"}
+        io.sentry/sentry-logback {:mvn/version "8.52.0"}
         javax.servlet/javax.servlet-api {:mvn/version "4.0.1"}
         metosin/malli {:mvn/version "0.20.1"}
         metosin/muuntaja {:mvn/version "0.6.11"}
@@ -35,10 +35,10 @@
         org.clojure/tools.logging {:mvn/version "1.3.1"}
         org.codehaus.janino/commons-compiler {:mvn/version "3.1.12"}
         org.codehaus.janino/janino {:mvn/version "3.1.12"}
-        org.eclipse.jetty/jetty-jmx {:mvn/version "12.1.10"}
-        org.flywaydb/flyway-core {:mvn/version "12.10.0"}
-        org.flywaydb/flyway-database-postgresql {:mvn/version "12.10.0"}
-        org.postgresql/postgresql {:mvn/version "42.7.12"}
+        org.eclipse.jetty/jetty-jmx {:mvn/version "12.1.12"}
+        org.flywaydb/flyway-core {:mvn/version "13.2.0"}
+        org.flywaydb/flyway-database-postgresql {:mvn/version "13.2.0"}
+        org.postgresql/postgresql {:mvn/version "42.7.13"}
         org.slf4j/jcl-over-slf4j {:mvn/version "2.0.18"}
         org.slf4j/jul-to-slf4j {:mvn/version "2.0.18"}
         org.slf4j/log4j-over-slf4j {:mvn/version "2.0.18"}
@@ -66,8 +66,8 @@
                               :upgrade true
                               :verbose true}}
 
-           :format-check {:replace-deps {dev.weavejester/cljfmt {:mvn/version "0.16.4"}}
+           :format-check {:replace-deps {dev.weavejester/cljfmt {:mvn/version "0.16.5"}}
                           :main-opts ["-m" "cljfmt.main" "check"]}
 
-           :format-fix {:replace-deps {dev.weavejester/cljfmt {:mvn/version "0.16.4"}}
+           :format-fix {:replace-deps {dev.weavejester/cljfmt {:mvn/version "0.16.5"}}
                         :main-opts ["-m" "cljfmt.main" "fix"]}}}

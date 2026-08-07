@@ -60,7 +60,7 @@
                            [:relying-party-id {:default "passkeys.demo.internal"} :string]
                            [:relying-party-name {:default "Passkeys Demo"} :string]]]]]]]
                      [:environment {:default :local} [:= :local]]
-                     [:jetty {:default 8080} [:map [:port pos-int?]]]
+                     [:jetty [:map [:port {:default 8080} pos-int?]]]
                      [:sentry [:map [:dsn [:maybe :string]]]]
                      [:thymeleaf [:map
                                   [:html
@@ -72,12 +72,12 @@
 
 (defn apply-defaults
   [config]
-  (m/decode Config config mt/default-value-transformer))
+  (m/decode Config config (mt/default-value-transformer {:defaults {:map (constantly {})}})))
 
 (defn validate
   [config]
   (-> (mu/closed-schema Config)
-      (bling/explain-malli (apply-defaults config))
+      (bling/explain-malli (apply-defaults config) {:success-message nil})
       (me/humanize)))
 
 (comment
